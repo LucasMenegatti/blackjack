@@ -14,8 +14,8 @@ let prox_carta;
 
 const div_cartas_PC = document.getElementById("div_cartas_PC");
 const div_cartas_player = document.getElementById("div_cartas_player");
-const info_jogador = document.getElementById("info_jogador");
-const info_PC = document.getElementById("info_PC");
+const info_jogador = document.getElementById("soma_jogador");
+const info_PC = document.getElementById("soma_PC");
 const info_geral = document.getElementById("info_geral")
 
 /* Construtor para o Objeto Carta */
@@ -51,6 +51,7 @@ function draw_card() {
     return deck.splice(Math.floor(Math.random()*deck.length-1),1);
 }
 
+/* Função que mostra/atualiza a soma na tela */
 function escreve_soma(condicao) {
     switch(condicao) {
         case 'mostrar':
@@ -64,6 +65,7 @@ function escreve_soma(condicao) {
     }
 }
 
+/* Função que escreve na barra de informações */
 function escreve_info(texto) {
     info_geral.innerHTML = '<h2>'+texto+'</h2>';
 }
@@ -76,7 +78,19 @@ buttons.forEach((button) => {
     })
 })
 
-button_press = function(option){
+/* Altera a aparência do botão (ativo e inativo) */
+function muda_botao(botao) {
+    if(document.getElementById(botao).classList.contains('botao-inativo')){
+        document.getElementById(botao).classList.add("botao-ativo");
+        document.getElementById(botao).classList.remove("botao-inativo");
+    } else {
+        document.getElementById(botao).classList.add("botao-inativo");
+        document.getElementById(botao).classList.remove("botao-ativo");
+    }
+    
+}
+
+function button_press(option) {
     switch (option) {
         case 'Deal':
             if(deal_enabled){
@@ -118,21 +132,17 @@ button_press = function(option){
                     escreve_soma()
                     escreve_info('Blackjack!!!')
                     hit_enabled = false;
-                    document.getElementById('botao-hit').classList.add("botao-inativo");
-                    document.getElementById('botao-hit').classList.remove("botao-ativo");
+                    muda_botao('botao-hit');
                 } else {
                     escreve_soma();
                     hit_enabled = true;
-                    document.getElementById('botao-hit').classList.add("botao-ativo");
-                    document.getElementById('botao-hit').classList.remove("botao-inativo");
+                    muda_botao('botao-hit');
                 }
                 /* Setup dos Botões */
                 deal_enabled = false;
-                document.getElementById('botao-deal').classList.add("botao-inativo");
-                document.getElementById('botao-deal').classList.remove("botao-ativo");
+                muda_botao('botao-deal');
                 stay_enabled = true;
-                document.getElementById('botao-stay').classList.add("botao-ativo");
-                document.getElementById('botao-stay').classList.remove("botao-inativo");
+                muda_botao('botao-stay');
             }
             break;
         case 'Hit':
@@ -158,14 +168,11 @@ button_press = function(option){
                             escreve_soma('mostrar');
                             escreve_info('Busted!!!');
                             stay_enabled = false;
-                            document.getElementById('botao-stay').classList.add("botao-inativo");
-                            document.getElementById('botao-stay').classList.remove("botao-ativo");
+                            muda_botao('botao-stay');
                             hit_enabled = false;
-                            document.getElementById('botao-hit').classList.add("botao-inativo");
-                            document.getElementById('botao-hit').classList.remove("botao-ativo");
+                            muda_botao('botao-hit');
                             reiniciar_enabled = true;
-                            document.getElementById('botao-reiniciar').classList.add("botao-ativo");
-                            document.getElementById('botao-reiniciar').classList.remove("botao-inativo");
+                            muda_botao('botao-reiniciar');
                             div_cartas_PC.innerHTML = '<img class="carta" src="'+primeira_carta_PC+'" /><img class="carta" src="'+segunda_carta_PC+'" />';
                         }
                     }
@@ -174,8 +181,7 @@ button_press = function(option){
             break;
         case 'Stay':
             hit_enabled = false;
-            document.getElementById('botao-hit').classList.add("botao-inativo");
-            document.getElementById('botao-hit').classList.remove("botao-ativo");
+            muda_botao('botao-hit');
             if(stay_enabled){
                 div_cartas_PC.innerHTML = '<img class="carta" src="'+primeira_carta_PC+'" /><img class="carta" src="'+segunda_carta_PC+'" />';
                 while(!end) {
@@ -189,32 +195,26 @@ button_press = function(option){
                             escreve_info('Você VENCEU!!!');
                             end = true;
                             stay_enabled = false;
-                            document.getElementById('botao-stay').classList.add("botao-inativo");
-                            document.getElementById('botao-stay').classList.remove("botao-ativo");
+                            muda_botao('botao-stay');
                             reiniciar_enabled = true;
-                            document.getElementById('botao-reiniciar').classList.add("botao-ativo");
-                            document.getElementById('botao-reiniciar').classList.remove("botao-inativo");
+                            muda_botao('botao-reiniciar');
                         }
                     } else if(soma_dealer==21 && soma_player==21){
                         escreve_soma('mostrar');
                         escreve_info('Empate!!!');
                         stay_enabled = false;
-                        document.getElementById('botao-stay').classList.add("botao-inativo");
-                        document.getElementById('botao-stay').classList.remove("botao-ativo");
+                        muda_botao('botao-stay');
                         reiniciar_enabled = true;
-                        document.getElementById('botao-reiniciar').classList.add("botao-ativo");
-                        document.getElementById('botao-reiniciar').classList.remove("botao-inativo");
+                        muda_botao('botao-reiniciar');
                         end = true;
                         break;
                     } else if(soma_player<soma_dealer){
                         escreve_soma('mostrar');
                         escreve_info('Você PERDEU!!!');
                         stay_enabled = false;
-                        document.getElementById('botao-stay').classList.add("botao-inativo");
-                        document.getElementById('botao-stay').classList.remove("botao-ativo");
+                        muda_botao('botao-stay');
                         reiniciar_enabled = true;
-                        document.getElementById('botao-reiniciar').classList.add("botao-ativo");
-                        document.getElementById('botao-reiniciar').classList.remove("botao-inativo");
+                        muda_botao('botao-reiniciar');
                         end = true;
                         break;
                     } else if(soma_player>=soma_dealer) {
