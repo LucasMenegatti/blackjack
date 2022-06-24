@@ -1,0 +1,56 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 1.2rem;
+    background-image: url('./imagens/bg.jpg');
+}
+
+.mesa {
+    display: grid;
+    width: 90%;
+    min-height: 600px;
+    margin: 5rem auto 1rem auto;
+    grid-template-rows: 1fr;
+    padding: 1rem;
+    background-color: rgba(141, 97, 97, 0.89);
+    border: 5px solid rgba(189, 94, 94, 0.89);
+    border-radius: 30px;
+}
+
+.barra-informacao {
+    width: 100%;
+    text-align: center;
+}
+
+.carta {
+    width: 150px;
+    margin-right: 1rem;
+}
+
+.botoes {
+    width: fit-content;
+    margin: 1rem auto;
+}
+
+.botao {
+    border: none;
+    padding: 1rem;
+    margin: 0 .5rem;
+    width: 150px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.botao-ativo {
+    color: white;
+    background-color: #1d5bce;
+}
+
+.botao-inativo {
+    color: white;
+    background-color: #616161;
+}
